@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cineverse TV Shows</title>
+
+<style>
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #141414;
+  color: #fff;
+  font-family: Arial, sans-serif;
+}
+
+/* ================= HEADER ================= */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+}
+
+nav.scrolled {
+  background: #000;
+}
+
+.logo {
+  color: red;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* ================= BANNER ================= */
+.banner {
+  height: 80vh;
+  background: url("https://image.tmdb.org/t/p/original/qJxzjUjCpTPvDHldNnlbRC4OqEh.jpg") center/cover no-repeat;
+  display: flex;
+  align-items: flex-end;
+  padding: 50px;
+}
+
+.banner h1 {
+  font-size: 50px;
+}
+
+/* ================= ROWS ================= */
+.container {
+  margin-top: 50px;
+  padding: 20px;
+}
+
+.row {
+  margin-bottom: 40px;
+}
+
+.row h2 {
+  margin-bottom: 10px;
+}
+
+.row-posters {
+  display: flex;
+  gap: 12px;
+  overflow-x: auto;
+}
+
+/* ================= POSTER CARD ================= */
+.poster {
+  min-width: 200px;
+  height: 120px;
+  background: #222;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.poster:hover {
+  transform: scale(1.15);
+  z-index: 10;
+}
+
+/* ================= POPUP ================= */
+.popup {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.85);
+  display: none;
+  justify-content: center;
+  align-items: center;
+}
+
+.popup-content {
+  background: #000;
+  padding: 20px;
+  width: 70%;
+  border-radius: 8px;
+}
+
+.popup video {
+  width: 100%;
+  border-radius: 6px;
+}
+
+.close {
+  color: red;
+  cursor: pointer;
+  float: right;
+  font-size: 22px;
+}
+/* ================= PROFILE ================= */
+.profile {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.profile img {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.profile {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile img {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: #111;
+  border-radius: 4px;
+  width: 120px;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+.profile-menu a {
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.profile-menu a:hover {
+  background: #222;
+}
+.profile:hover .profile-menu {
+  display: flex;
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+<nav id="navbar">
+<div class="logo">Cineverse</div>
+
+  <ul class="nav-links">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="tvshows.html">TV Shows</a></li>
+    <li><a href="movies.html">Movies</a></li>
+    <li><a href="new.html">New</a></li>
+  </ul>
+
+  <!-- PROFILE -->
+  <div class="profile">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="Profile">
+     <div class="profile-menu">
+      <a href="#">Account</a>
+      <a href="index.html" onclick="logout()">Logout</a>
+      </div>
+  </div>
+</nav>
+
+
+<div class="banner">
+  <h1>TV Shows</h1>
+</div>
+
+<div class="container" id="content"></div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">✖</span>
+    <h2 id="popupTitle"></h2>
+
+    <video id="videoPlayer" controls autoplay></video>
+  </div>
+</div>
+
+<script>
+
+
+const categories = [
+
+/* ===================== CRIME ===================== */
+{
+  title: "Crime TV Shows",
+  shows: [
+    { name: "Breaking Bad", image: "https://tse1.mm.bing.net/th/id/OIP.q4i9cC9dAyOu3MdQRkAmfwHaEK?pid=Api&P=0&h=180", video: "videos/trailer2.mp4" },
+    { name: "Better Call Saul", image: "https://image.tmdb.org/t/p/w500/luoKpgVwi1E5nQsi7W0UuKHu2Rq.jpg", video: "videos/better.mp4" },
+    { name: "Narcos", image: "https://tse3.mm.bing.net/th/id/OIP.K2EVNIrzjmhEz91wsAgoZwHaLH?pid=Api&P=0&h=180", video: "videos/narcos.mp4" },
+    { name: "Mindhunter", image: "https://image.tmdb.org/t/p/w500/fbKE87mojpIETWepSbD5Qt741fp.jpg", video: "videos/Mindhunter.mp4" },
+    { name: "Ozark", image: "https://image.tmdb.org/t/p/w500/m73bD8VjibSKuTWg597GQVyVhSb.jpg", video: "videos/Ozark.mp4" },
+    { name: "Money Heist", image: "https://image.tmdb.org/t/p/w500/reEMJA1uzscCbkpeRJeTT2bjqUp.jpg", video: "videos/Moneyheist.mp4" },
+    { name: "Peaky Blinders", image: "https://wallpaperaccess.com/full/6520910.jpg", video: "videos/peakyblinders.mp4" }
+  ]
+},
+
+/* ===================== SCI-FI ===================== */
+{
+  title: "Sci-Fi & Fantasy",
+  shows: [
+    { name: "Stranger Things", image: "https://image.tmdb.org/t/p/w500/49WJfeN0moxb9IPfGn8AIqMGskD.jpg", video: "videos/strangerthings.mp4" },
+    { name: "Dark", image: "https://image.tmdb.org/t/p/w500/apbrbWs8M9lyOpJYU5WXrpFbk1Z.jpg", video: "videos/dark.mp4" },
+    { name: "Black Mirror", image: "https://image.tmdb.org/t/p/w500/7PRddO7z7mcPi21nZTCMGShAyy1.jpg", video: "videos/blackmirror.mp4" },
+    { name: "The 100", image: "https://image.tmdb.org/t/p/w500/wcaDIAG1QdXQLRaj4vC1EFdBT2.jpg", video: "videos/the100.mp4" },
+    { name: "Lost in Space", image: "https://tse4.mm.bing.net/th/id/OIP.4QK1q2WDNI9pQQoj10CvSwHaEo?pid=Api&P=0&h=180", video: "videos/lostinspace.mp4" },
+    { name: "Altered Carbon", image: "https://tse4.mm.bing.net/th/id/OIP.LRhwY7JKEBv7ZGSR-wowaQHaK5?pid=Api&P=0&h=180", video: "videos/alteredcarbon.mp4" },
+    { name: "The Umbrella Academy", image: "https://image.tmdb.org/t/p/w500/scZlQQYnDVlnpxFTxaIv2g0BWnL.jpg", video: "videos/umbrellaacademy.mp4" }
+  ]
+},
+
+/* ===================== ACTION ===================== */
+{
+  title: "Action & Adventure",
+  shows: [
+    { name: "The Witcher", image: "https://image.tmdb.org/t/p/w500/zrPpUlehQaBf8YX2NrVrKK8IEpf.jpg", video: "videos/witcher.mp4" },
+    { name: "Vikings", image: "https://image.tmdb.org/t/p/w500/zrPpUlehQaBf8YX2NrVrKK8IEpf.jpg", video: "videos/vikings.mp4" },
+    { name: "Reacher", image: "https://tse2.mm.bing.net/th/id/OIP.xxsBOalPfp66-5A5nfShPAHaJQ?pid=Api&P=0&h=180", video: "videos/reacher.mp4" },
+    { name: "Jack Ryan", image: "https://static1.srcdn.com/wordpress/wp-content/uploads/2023/05/jack-ryan-shadow-recruit-poster.jpeg", video: "videos/jackryan.mp4" },
+    { name: "The Night Agent", image: "https://tse3.mm.bing.net/th/id/OIP.ouyjvMUd_HHMS9mLsGkJEQHaFh?pid=Api&P=0&h=180", video: "videos/nightagent.mp4" },
+    { name: "Daredevil", image: "https://image.tmdb.org/t/p/w500/QWbPaDxiB6LW2LjASknzYBvjMj.jpg", video: "videos/daredevil.mp4" },
+    { name: "Arrow", image: "https://image.tmdb.org/t/p/w500/gKG5QGz5Ngf8fgWpBsWtlg5L2SF.jpg", video: "videos/arrow.mp4" }
+  ]
+},
+
+/* ===================== COMEDY ===================== */
+{
+  title: "Comedy & Sitcoms",
+  shows: [
+    { name: "Friends", image: "https://image.tmdb.org/t/p/w500/f496cm9enuEsZkSPzCwnTESEK5s.jpg", video: "videos/friends.mp4" },
+    { name: "The Office", image: "https://image.tmdb.org/t/p/w500/qWnJzyZhyy74gjpSjIXWmuk0ifX.jpg", video: "videos/theoffice.mp4" },
+    { name: "Brooklyn Nine-Nine", image: "https://image.tmdb.org/t/p/w500/hgRMSOt7a1b8qyQR68vUixJPang.jpg", video: "videos/b99.mp4" },
+    { name: "How I Met Your Mother", image: "https://image.tmdb.org/t/p/w500/b34jPzmB0wZy7EjUZoleXOl2RRI.jpg", video: "videos/himym.mp4" },
+    { name: "The Big Bang Theory", image: "https://image.tmdb.org/t/p/w500/ooBGRQBdbGzBxAVfExiO8r7kloA.jpg", video: "videos/bbt.mp4" },
+    { name: "Wednesday", image: "https://image.tmdb.org/t/p/w500/jeGtaMwGxPmQN5xM4ClnwPQcNQz.jpg", video: "videos/wednesday.mp4" },
+    { name: "Modern Family", image: "https://tse2.mm.bing.net/th/id/OIP.f8ZdU_jf6XH5YXmSWnd8GAHaHa?pid=Api&P=0&h=180", video: "videos/modernfamily.mp4" }
+  ]
+}
+
+];
+
+
+
+const content = document.getElementById("content");
+
+categories.forEach(cat => {
+  const row = document.createElement("div");
+  row.className = "row";
+
+  const title = document.createElement("h2");
+  title.textContent = cat.title;
+
+  const posters = document.createElement("div");
+  posters.className = "row-posters";
+
+  cat.shows.forEach(show => {
+    const card = document.createElement("div");
+    card.className = "poster";
+
+    const img = document.createElement("img");
+    img.src = show.image;
+
+    card.onclick = () => openPopup(show);
+
+    card.appendChild(img);
+    posters.appendChild(card);
+  });
+
+  row.appendChild(title);
+  row.appendChild(posters);
+  content.appendChild(row);
+});
+
+function openPopup(show) {
+  document.getElementById("popupTitle").innerText = show.name;
+  const video = document.getElementById("videoPlayer");
+
+  video.src = show.video;
+  video.load();
+  video.play();
+
+  document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+  const video = document.getElementById("videoPlayer");
+  video.pause();
+  video.src = "";
+  document.getElementById("popup").style.display = "none";
+}
+function logout() {
+  localStorage.removeItem("loggedIn");
+  window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>

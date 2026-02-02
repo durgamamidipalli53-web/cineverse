@@ -1,0 +1,634 @@
+/* --- RESET & BASIC STYLES --- */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: #141414;
+    color: #fff;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+}
+
+/* --- NAVIGATION --- */
+nav {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    height: 68px;
+    padding: 0 4%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(to bottom, rgba(0,0,0,0.7) 10%, rgba(0,0,0,0));
+    z-index: 1000;
+    transition: background-color 0.3s;
+}
+
+nav.scrolled {
+    background-color: #141414;
+}
+
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    color: #e50914;
+    font-size: 25px;
+    font-weight: bold;
+    text-transform: uppercase;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+}
+
+.nav-links li a {
+    color: #e5e5e5;
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.3s;
+}
+
+.nav-links li a:hover {
+    color: #b3b3b3;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    font-size: 1.2rem;
+}
+
+.user-avatar {
+    width: 32px;
+    height: 32px;
+    background-color: #f5c518; /* Placeholder color */
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* --- HERO (BILLBOARD) SECTION --- */
+.hero {
+    position: relative;
+    height: 80vh; /* 80% of viewport height */
+    width: 100%;
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+    transition: background-image 0.5s ease-in-out; /* Smooth transition on hover */
+}
+
+/* Gradient Overlay for readability */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to top, #141414 0%, transparent 40%),
+                linear-gradient(to right, #141414 0%, transparent 50%);
+}
+
+.hero-content {
+    position: absolute;
+    top: 35%;
+    left: 4%;
+    z-index: 10;
+    max-width: 500px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.hero-title {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+    line-height: 1.1;
+}
+
+.hero-description {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.btn {
+    border: none;
+    padding: 0.8rem 1.8rem;
+    border-radius: 4px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: opacity 0.2s;
+}
+
+.btn:hover {
+    opacity: 0.8;
+}
+
+.btn-play {
+    background-color: #fff;
+    color: #000;
+}
+
+.btn-info {
+    background-color: rgba(109, 109, 110, 0.7);
+    color: #fff;
+}
+
+/* --- MOVIE ROWS --- */
+.row-container {
+    padding: 20px 0 40px 4%;
+    position: relative;
+    z-index: 20;
+    margin-top: -100px; /* Pull first row up over the hero fade */
+}
+
+.row-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: #e5e5e5;
+    transition: color 0.3s;
+}
+
+.row-title:hover {
+    color: #fff;
+}
+
+.row-scroller {
+    display: flex;
+    overflow-x: auto;
+    gap: 10px;
+    padding-right: 4%;
+    padding-bottom: 20px; /* Space for hover expansion */
+    scroll-behavior: smooth;
+}
+
+/* Hide scrollbar */
+.row-scroller::-webkit-scrollbar {
+    height: 0px;
+    background: transparent;
+}
+
+.movie-card {
+    flex: 0 0 auto;
+    width: 250px;
+    height: 140px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s ease, z-index 0s;
+}
+
+.movie-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+/* Hover Effect for Cards */
+.movie-card:hover {
+    transform: scale(1.4);
+    z-index: 100;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.8);
+    transition: transform 0.3s ease, z-index 0s 0.1s; /* Delay z-index to prevent clipping */
+}
+
+/* Hidden Info on Card Hover */
+.card-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: linear-gradient(to top, #141414, transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    font-size: 0.8rem;
+}
+
+.movie-card:hover .card-info {
+    opacity: 1;
+}
+
+/* --- MODAL (TRAILER POPUP) --- */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #181818;
+    width: 90%;
+    max-width: 800px;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+}
+
+.modal-overlay.active .modal-content {
+    transform: scale(1);
+}
+
+.modal-header {
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #333;
+}
+
+.modal-title {
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.close-modal {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 2rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.video-container {
+    position: relative;
+    padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+    height: 0;
+    background-color: #000;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.modal-controls {
+    padding: 20px;
+}
+
+.url-input-group {
+    display: flex;
+    gap: 10px;
+}
+
+.url-input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #333;
+    background-color: #333;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.url-input:focus {
+    outline: 2px solid #e50914;
+    border-color: transparent;
+}
+
+.load-video-btn {
+    padding: 10px 20px;
+    background-color: #e50914;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.load-video-btn:hover {
+    background-color: #f40612;
+}
+
+.error-msg {
+    color: #e50914;
+    font-size: 0.85rem;
+    margin-top: 8px;
+    display: none;
+}
+
+/* --- FOOTER --- */
+footer {
+    padding: 50px 4%;
+    color: #757575;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+footer p {
+    margin-top: 10px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .nav-links {
+        display: none;
+    }
+    .hero-title {
+        font-size: 2rem;
+    }
+    .hero-content {
+        width: 90%;
+    }
+}
+.video-wrapper {
+            position: relative;
+            width: 100%;
+            padding-top: 56.25%; /* 16:9 */
+            background: #000;
+        }
+
+        #trailer-player {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.8);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.modal-overlay.active {
+  display: flex;
+}
+
+.modal-content {
+  width: 90%;
+  max-width: 900px;
+  background: #111;
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.video-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 */
+  background: black;
+}
+
+#trailer-player {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+/* Horizontal Scroll Row */
+.row-container {
+    display: flex;
+    overflow-x: auto;       /* enables horizontal scrolling */
+    gap: 15px;
+    padding: 20px 30px;
+    scroll-behavior: smooth;
+}
+
+.row-container::-webkit-scrollbar {
+    height: 8px;            /* horizontal scrollbar height */
+}
+
+.row-container::-webkit-scrollbar-thumb {
+    background: #e50914;    /* scrollbar color */
+    border-radius: 4px;
+}
+
+.show-card {
+    flex: 0 0 auto;         /* prevent shrinking, keep width fixed */
+    width: 200px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,0,0,0.5);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.show-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.show-info {
+    padding: 10px;
+}
+
+.show-info h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.show-info p {
+    font-size: 12px;
+    color: #ccc;
+    margin-bottom: 10px;
+}
+
+.show-info .btn {
+    padding: 5px 8px;
+    font-size: 12px;
+}
+
+/* Optional: Hide vertical scrollbar */
+.row-container {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: thin;      /* Firefox */
+}
+
+.row-container::-webkit-scrollbar {
+    display: block; /* visible */
+}
+.page-header {
+    padding: 100px 30px 20px 30px; /* top padding = navbar height + extra */
+    text-align: center;
+}
+main {
+    padding-top: 80px; /* space for fixed navbar */
+}
+.hero {
+    height: 500px;
+    padding: 80px 30px 30px 30px; /* top padding below navbar */
+}
+/* ---------- BANNER ---------- */
+.banner {
+    position: relative;
+    height: 400px;
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    padding: 30px;
+    background-size: cover;
+    background-position: center;
+    margin-top: 60px; /* space below fixed navbar */
+}
+
+.banner::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 200px;
+    width: 100%;
+    background: linear-gradient(transparent, #141414 90%);
+}
+
+.banner-content {
+    position: relative;
+    max-width: 700px;
+}
+
+.banner-content h1 {
+    font-size: 36px;
+    margin-bottom: 10px;
+}
+
+.banner-content p {
+    font-size: 16px;
+    margin-bottom: 15px;
+    color: #ccc;
+}
+
+.banner-buttons .btn {
+    margin-right: 10px;
+}
+
+/* Horizontal Row */
+.row-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 20px 30px;
+    scroll-behavior: smooth;
+}
+
+.row-container::-webkit-scrollbar {
+    height: 8px;
+}
+
+.row-container::-webkit-scrollbar-thumb {
+    background: #e50914;
+    border-radius: 4px;
+}
+
+.show-card {
+    flex: 0 0 auto;
+    width: 200px;
+    background-color: #1f1f1f;
+    border-radius: 10px;
+    overflow: hidden;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.show-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(0,0,0,0.7);
+}
+
+.show-card img {
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+}
+
+.show-info {
+    padding: 10px;
+}
+
+.show-info h3 {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.show-info p {
+    font-size: 12px;
+    color: #ccc;
+}
+.page-banner .banner-text p {
+    font-size: 16px;
+    color: #ccc;
+    margin-top: 5px;
+}
+.page-banner {
+    position: relative;
+    height: 150px;               /* adjust as needed */
+    display: flex;
+    align-items: center;
+    padding: 0 30px;
+    background: linear-gradient(to bottom, #141414, #1f1f1f); /* Netflix-style gradient */
+    color: #fff;
+    z-index: 1;                  /* make sure it’s above other content */
+    margin-top: 60px;            /* below fixed navbar */
+}
+
+.page-banner h2 {
+    font-size: 36px;
+    font-weight: bold;
+}

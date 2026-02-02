@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Cineverse Login</title>
+<style>
+/* Reset */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+/* Body with Netflix-style background */
+body {
+  font-family: Arial, sans-serif;
+  background: url("https://wallpapers.com/images/hd/netflix-background-gs7hjuwvv2g0e9fj.jpg") no-repeat center center/cover;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  position: relative;
+}
+
+/* Dark overlay */
+body::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+}
+
+/* Login container */
+.login-container {
+  position: relative;
+  background: rgba(0,0,0,0.75);
+  padding: 60px 40px;
+  border-radius: 5px;
+  width: 360px;
+  z-index: 1;
+}
+
+/* Netflix Logo */
+.login-container h1 {
+  color: red;
+  font-size: 48px;
+  text-align: center;
+  margin-bottom: 40px;
+  font-weight: bold;
+}
+
+/* Input fields */
+.login-container input {
+  width: 100%;
+  padding: 16px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  border: none;
+  background: #333;
+  color: #fff;
+  font-size: 16px;
+}
+
+/* Login button */
+.login-container button {
+  width: 100%;
+  padding: 16px;
+  background: #e50914;
+  border: none;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  color: #fff;
+  margin-bottom: 20px;
+  transition: background 0.3s;
+}
+
+.login-container button:hover {
+  background: #f6121d;
+}
+
+/* Remember me and links */
+.login-container .options {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  margin-bottom: 20px;
+  color: #b3b3b3;
+}
+
+.login-container .options label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.login-container .options a {
+  color: #b3b3b3;
+  text-decoration: none;
+}
+
+.login-container .options a:hover {
+  text-decoration: underline;
+}
+
+/* Footer text */
+.login-container p.signup {
+  font-size: 14px;
+  color: #737373;
+  text-align: center;
+}
+.login-container p.signup a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: bold;
+}
+.login-container p.signup a:hover {
+  text-decoration: underline;
+}
+</style>
+</head>
+<body>
+
+<div class="login-container">
+  <h1>CINEVERSE</h1>
+  <input type="text" placeholder="Email or phone number">
+  <input type="password" placeholder="Password">
+  <button onclick="login()">Sign In</button>
+
+  <div class="options">
+    <label><input type="checkbox"> Remember me</label>
+    <a href="#">Need help?</a>
+  </div>
+
+  <p class="signup">New to Cineverse? <a href="#">Sign up now</a>.</p>
+</div>
+
+<script>
+function login() {
+  // Redirect to home page without validation
+  window.location.href = "home.html";
+}
+</script>
+
+</body>
+</html>

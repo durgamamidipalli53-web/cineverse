@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title> Cineverse New Releases</title>
+
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #141414; color: #fff; font-family: Arial, sans-serif; }
+
+/* HEADER */
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  padding: 15px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.9), transparent);
+}
+
+nav.scrolled {
+  background: #000;
+}
+
+.logo {
+  color: red;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+
+.nav-links a {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* BANNER */
+.banner {
+  height: 80vh;
+  background: url("https://wallpapercave.com/wp/wp11685752.jpg") center/cover no-repeat;
+  display: flex; align-items: flex-end; padding: 50px;
+}
+.banner h1 { font-size: 50px; }
+
+/* ROWS */
+.container { margin-top: 50px; padding: 20px; }
+.row { margin-bottom: 40px; }
+.row h2 { margin-bottom: 10px; }
+.row-posters { display: flex; gap: 12px; overflow-x: auto; }
+
+/* POSTER CARD */
+.poster {
+  min-width: 200px; height: 300px; background: #222;
+  border-radius: 6px; overflow: hidden; cursor: pointer;
+  transition: transform 0.3s;
+}
+.poster img { width: 100%; height: 100%; object-fit: cover; }
+.poster:hover { transform: scale(1.15); z-index: 10; }
+
+/* POPUP */
+.popup { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; justify-content: center; align-items: center; }
+.popup-content { background: #000; padding: 20px; width: 60%; }
+.popup img { width: 100%; border-radius: 6px; }
+.close { color: red; cursor: pointer; float: right; font-size: 22px; }
+/* ================= PROFILE ================= */
+.profile {
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+
+.profile img {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  object-fit: cover;
+}
+.profile {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile img {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: #111;
+  border-radius: 4px;
+  width: 120px;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+.profile-menu a {
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.profile-menu a:hover {
+  background: #222;
+}
+
+.profile {
+  position: relative;
+  cursor: pointer;
+}
+
+.profile img {
+  width: 34px;
+  height: 34px;
+  border-radius: 4px;
+}
+
+.profile-menu {
+  position: absolute;
+  top: 45px;
+  right: 0;
+  background: #111;
+  border-radius: 4px;
+  width: 120px;
+  display: none;
+  flex-direction: column;
+  box-shadow: 0 0 10px rgba(0,0,0,0.6);
+}
+
+.profile-menu a {
+  padding: 10px;
+  color: #fff;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.profile-menu a:hover {
+  background: #222;
+}
+
+.profile:hover .profile-menu {
+  display: flex;
+}
+
+
+
+</style>
+</head>
+
+<body>
+
+<nav id="navbar">
+  <div class="logo">Cineverse</div>
+
+  <ul class="nav-links">
+    <li><a href="home.html">Home</a></li>
+    <li><a href="tvshows.html">TV Shows</a></li>
+    <li><a href="movies.html">Movies</a></li>
+    <li><a href="new.html">New</a></li>
+  </ul>
+
+  <!-- PROFILE -->
+  <div class="profile">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Netflix-avatar.png" alt="Profile">
+     <div class="profile-menu">
+      <a href="#">Account</a>
+      <a href="index.html" onclick="logout()">Logout</a>
+      </div>
+  </div>
+</nav>
+
+
+<div class="banner">
+  <h1>New Releases</h1>
+</div>
+
+<div class="container" id="content"></div>
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">✖</span>
+    <h2 id="popupTitle"></h2>
+    <iframe id="trailerFrame" width="100%" height="400" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+  </div>
+</div>
+
+<script>
+const categories = [
+  /* ===================== NEW ACTION ===================== */
+  {
+    title: "New Action Releases",
+    shows: [
+      { name: "Extraction 2", image: "https://tse4.mm.bing.net/th/id/OIP.89myLA4miRqjUvw78g0hFgHaLH?pid=Api&P=0&h=180", trailerId: "5dEXojpLQIw" },
+      { name: "Avatar: The Way of Water", image: "https://image.tmdb.org/t/p/w500/t6HIqrRAclMCA60NsSmeqe9RmNV.jpg", trailerId: "d9MyW72ELq0" },
+      { name: "Black Adam", image: "https://image.tmdb.org/t/p/w500/pFlaoHTZeyNkG83vxsAJiGzfSsa.jpg", trailerId: "v5VCt-OvPtk" },
+      { name: "Top Gun: Maverick", image: "https://image.tmdb.org/t/p/w500/62HCnUTziyWcpDaBO2i1DX17ljH.jpg", trailerId: "giXco2jaZ_4" },
+      { name: "Jurassic World: Dominion", image: "https://image.tmdb.org/t/p/w500/kAVRgw7GgK1CfYEJq8ME6EvRIgU.jpg", trailerId: "BldvQqh4O1g" },
+      { name: "Doctor Strange in Multiverse", image: "https://image.tmdb.org/t/p/w500/9Gtg2DzBhmYamXBS1hKAhiwbBKS.jpg", trailerId: "aWzlQ2N6qqg" },
+      { name: "The Gray Man", image: "https://image.tmdb.org/t/p/w500/8cXbitsS6dWQ5gfMTZdorpAAzEH.jpg", trailerId: "qexD0ohZ4uQ" }
+    ]
+  },
+
+  /* ===================== NEW DRAMA ===================== */
+  {
+    title: "New Drama Releases",
+    shows: [
+      { name: "Oppenheimer", image: "https://tse4.mm.bing.net/th/id/OIP.Ew4Zjg1klAQO_NQRbG0dJAHaK9?pid=Api&P=0&h=180", trailerId: "6tC7fC-5x0o" },
+      { name: "Barbie", image: "https://tse4.mm.bing.net/th/id/OIP.Jn-3kwtSQQYTUinNlBIL2gHaKS?pid=Api&P=0&h=180", trailerId: "kP3lfF6z6RI" },
+      { name: "Killers of the Flower Moon", image: "https://lh3.googleusercontent.com/NgtvyteTHwVv-VynL0HISXTIxwbeVTv3M7dp1Swc_VGONEOAYVdN2ZEKr2h27Z-FjBa3FjjJr6fkqtCZKhqOx9mF4sriZaaIgg=s0", trailerId: "b2f2K_5wT9s" },
+      { name: "Asteroid City", image: "https://tse2.mm.bing.net/th/id/OIP.jQ93OspGjpeYnM_QCoXCwgHaLH?pid=Api&P=0&h=180", trailerId: "Kpe0Q6Q0ZPo" },
+      { name: "Past Lives", image: "https://image.tmdb.org/t/p/original/p6vTexWNZnTRF6VCT87WnJzWHkS.jpg", trailerId: "L8pTYVq2Rbw" },
+      { name: "The Fabelmans", image: "https://tse1.mm.bing.net/th/id/OIP.DYemONh3Z_7zstrteih3uAHaLH?pid=Api&P=0&h=180", trailerId: "jkwm26whM50" },
+      { name: "Poor Things", image: "https://tse2.mm.bing.net/th/id/OIP.nvX0sHmShrSn7I5kspcx9QHaLH?pid=Api&P=0&h=180", trailerId: "B0aZ5bz4jAU" }
+    ]
+  },
+
+  
+
+  /* ===================== NEW HORROR ===================== */
+  {
+    title: "New Horror Releases",
+    shows: [
+      { name: "Talk to Me", image: "https://tse2.mm.bing.net/th/id/OIP._mtfP8ntLGHuKVhdvjoNJwAAAA?pid=Api&P=0&h=180", trailerId: "u0x2xOE6gYc" },
+      { name: "Five Nights at Freddy's", image: "https://image.tmdb.org/t/p/w500/srYya1ZlI97Au4jUYAktDe3avyA.jpg", trailerId: "wVvP9E6U4dM" },
+      { name: "The Nun II", image: "https://image.tmdb.org/t/p/original/yTjpM9GF5C8na0ljrxREY9krmky.jpg", trailerId: "jNlhI6nxR2E" },
+      { name: "The Exorcist: Believer", image: "https://image.tmdb.org/t/p/original/oWyQdmhVgUIbNuRpn272ShJrrcZ.jpg", trailerId: "Dc9UuBrS6yo" },
+      { name: "Saw X", image: "https://mir-s3-cdn-cf.behance.net/project_modules/1400_opt_1/33f114116175829.605c8d41bfbd4.jpg", trailerId: "g0iW9f5XxjM" },
+      { name: "Evil Dead Rise", image: "https://image.tmdb.org/t/p/original/zm5f6GhhQ3RvLnOmGBYjR9RHjhw.jpg", trailerId: "YYK0k1x6W8M" },
+      { name: "Renfield", image: "https://tse3.mm.bing.net/th/id/OIP.Dy_gruVqP_FQOGjNRIM6KQHaLH?pid=Api&P=0&h=180", trailerId: "6cQ8ayzBykA" }
+    ]
+  },
+
+  
+
+  /* ===================== NEW ANIMATION ===================== */
+  {
+    title: "New Animation Releases",
+    shows: [
+      { name: "Strange World", image: "https://tse2.mm.bing.net/th/id/OIP.uSGcPUQSjDUnl8KCw9_W3QHaLH?pid=Api&P=0&h=180", trailerId: "1pWq9Z7i0yI" },
+      { name: "The Super Mario Bros. Movie", image: "https://image.tmdb.org/t/p/w500/qNBAXBIQlnOThrVvA6mA2B5ggV6.jpg", trailerId: "U2tV4mkSD8g" },
+      { name: "Elemental", image: "https://image.tmdb.org/t/p/w500/8riWcADI1ekEiBguVB9vkilhiQm.jpg", trailerId: "LKTpwkG0jsA" },
+      { name: "Spider-Man: Across the Spider-Verse", image: "https://image.tmdb.org/t/p/w500/8Vt6mWEReuy4Of61Lnj5Xj704m8.jpg", trailerId: "aWf7myl6gZM" },
+      { name: "Minions: The Rise of Gru", image: "https://image.tmdb.org/t/p/w500/wKiOkZTN9lUUUNZLmtnwubZYONg.jpg", trailerId: "6DxjJzmYsXo" },
+      { name: "Puss in Boots: The Last Wish", image: "https://image.tmdb.org/t/p/original/bE5dsNfmlClOfKqI121jqO5kTTw.jpg", trailerId: "RYrtyU6XNk8" },
+      { name: "Lightyear", image: "https://tse4.mm.bing.net/th/id/OIP.L9vrNn35R_FfvXYLnlg9TQHaLH?pid=Api&P=0&h=180", trailerId: "Mv4Tm8W2CWY" }
+    ]
+  }
+];
+
+const content = document.getElementById("content");
+
+categories.forEach(cat => {
+  const row = document.createElement("div");
+  row.className = "row";
+
+  const title = document.createElement("h2");
+  title.textContent = cat.title;
+
+  const posters = document.createElement("div");
+  posters.className = "row-posters";
+
+  cat.shows.forEach(show => {
+    const card = document.createElement("div");
+    card.className = "poster";
+
+    const img = document.createElement("img");
+    img.src = show.image;
+    img.alt = show.name;
+
+    card.onclick = () => openPopup(show.trailerId, show.name);
+
+    card.appendChild(img);
+    posters.appendChild(card);
+  });
+
+  row.appendChild(title);
+  row.appendChild(posters);
+  content.appendChild(row);
+});
+
+function openPopup(trailerId, title) {
+  document.getElementById("popupTitle").innerText = title;
+  document.getElementById("trailerFrame").src = `https://www.youtube.com/embed/${trailerId}?autoplay=1`;
+  document.getElementById("popup").style.display = "flex";
+}
+
+function closePopup() {
+  document.getElementById("popup").style.display = "none";
+  document.getElementById("trailerFrame").src = "";
+}
+function logout() {
+  localStorage.removeItem("loggedIn");
+  window.location.href = "index.html";
+}
+
+</script>
+
+</body>
+</html>
